@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expenses Analysis</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body data-page="expenses">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">mp</div>
+          <div>
+            <p class="eyebrow">financial narrative lab</p>
+            <h1>Middle Path</h1>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="nav-link" data-page="dashboard" href="./index.html">Dashboard</a>
+          <a class="nav-link" data-page="income" href="./income.html">Income</a>
+          <a class="nav-link" data-page="expenses" href="./expenses.html">Expenses</a>
+          <a class="nav-link" data-page="events" href="./events.html">Events</a>
+          <a class="nav-link" data-page="forecast" href="./forecast.html">Forecast</a>
+          <a class="nav-link" data-page="stress" href="./stress.html">Stress Index</a>
+        </nav>
+        <div class="sidebar-card">
+          <p class="eyebrow">expense module</p>
+          <h2>Adjust every major cost line</h2>
+          <p>Change rent, utilities, transport, healthcare, groceries, and discretionary spending to see how the life path shifts.</p>
+        </div>
+        <div class="profile-card">
+          <div class="profile-avatar">EX</div>
+          <div>
+            <p class="eyebrow">focus</p>
+            <strong>Expense planning</strong>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div class="header-row">
+            <div>
+              <p class="eyebrow">detail page</p>
+              <h2 id="pageTitle">Expenses</h2>
+            </div>
+            <div class="chip-row">
+              <div class="meta-chip">
+                <span class="meta-label">Lifestyle level</span>
+                <strong id="lifestyleHeadline">Balanced</strong>
+              </div>
+              <div class="meta-chip highlight">
+                <span class="meta-label">Income floor</span>
+                <strong id="salaryFloor">$0</strong>
+              </div>
+            </div>
+          </div>
+          <p class="helper-copy">This page isolates recurring spending. Every major expense line can be tuned directly, and changing Lifestyle intensity will also auto-adjust related sliders such as rent, transport, groceries, and other recurring costs.</p>
+        </header>
+
+        <section class="hero-grid">
+          <article class="chart-card">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">live overview</p>
+                <h3>Income vs expenses curve</h3>
+              </div>
+            </div>
+            <canvas id="curveChart" width="960" height="280"></canvas>
+            <p id="curveNarrative" class="story-copy"></p>
+          </article>
+          <article id="pressurePanel" class="score-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">live pressure</p>
+                <h3>Pressure Dashboard</h3>
+              </div>
+              <span id="scenarioBadge" class="status-badge">Stable</span>
+            </div>
+            <div id="scoreRing" class="score-ring">
+              <div class="score-ring-inner">
+                <div>
+                  <strong id="stressScore">0</strong>
+                  <span>Stress index</span>
+                </div>
+              </div>
+            </div>
+            <div class="score-bars">
+              <div>
+                <span>Housing burden</span>
+                <strong id="housingBurden">0%</strong>
+              </div>
+              <div>
+                <span>Emergency coverage</span>
+                <strong id="coverageValue">0 mo</strong>
+              </div>
+              <div>
+                <span>Negative months</span>
+                <strong id="negativeMonthsValue">0</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="page-columns">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">expense controls</p>
+                <h3>Monthly cost sliders</h3>
+              </div>
+            </div>
+            <div class="form-grid">
+              <label class="field">
+                <span>Rent</span>
+                <div class="range-wrap">
+                  <input id="rentInput" type="range" min="600" max="5000" step="25" />
+                  <strong id="rentValue">$0</strong>
+                </div>
+              </label>
+              <label class="field">
+                <span>Utilities</span>
+                <div class="range-wrap">
+                  <input id="utilitiesInput" type="range" min="60" max="600" step="10" />
+                  <strong id="utilitiesValue">$0</strong>
+                </div>
+              </label>
+              <label class="field">
+                <span>Groceries</span>
+                <div class="range-wrap">
+                  <input id="groceriesInput" type="range" min="150" max="1600" step="25" />
+                  <strong id="groceriesValue">$0</strong>
+                </div>
+              </label>
+              <label class="field">
+                <span>Transport</span>
+                <div class="range-wrap">
+                  <input id="transportInput" type="range" min="40" max="900" step="10" />
+                  <strong id="transportValue">$0</strong>
+                </div>
+              </label>
+              <label class="field">
+                <span>Healthcare</span>
+                <div class="range-wrap">
+                  <input id="healthcareInput" type="range" min="100" max="1200" step="10" />
+                  <strong id="healthcareValue">$0</strong>
+                </div>
+              </label>
+              <label class="field">
+                <span>Discretionary</span>
+                <div class="range-wrap">
+                  <input id="discretionaryInput" type="range" min="100" max="1600" step="25" />
+                  <strong id="discretionaryValue">$0</strong>
+                </div>
+              </label>
+              <label class="field field-full">
+                <span>Lifestyle intensity</span>
+                <div class="range-wrap">
+                  <input id="lifestyleInput" type="range" min="80" max="135" step="1" />
+                  <strong id="lifestyleValue">Balanced</strong>
+                </div>
+              </label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">cost summary</p>
+                <h3>What the budget looks like</h3>
+              </div>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <span>Fixed expenses</span>
+                <strong id="expensesFixed">$0</strong>
+              </div>
+              <div class="metric-card">
+                <span>Variable expenses</span>
+                <strong id="expensesVariable">$0</strong>
+              </div>
+              <div class="metric-card">
+                <span>Annual burn rate</span>
+                <strong id="expensesAnnual">$0</strong>
+              </div>
+              <div class="metric-card">
+                <span>Rent burden</span>
+                <strong id="expensesRentBurden">0%</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="page-grid">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">detailed analysis</p>
+                <h3>Highest-pressure categories</h3>
+              </div>
+            </div>
+            <div id="expensesBreakdown" class="analysis-list"></div>
+            <p id="expensesNarrative" class="story-copy"></p>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">context</p>
+                <h3>Shared scenario settings</h3>
+              </div>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <span>Emergency fund rate</span>
+                <strong id="emergencyRateValue">0%</strong>
+              </div>
+              <div class="metric-card">
+                <span>Student loan</span>
+                <strong id="loanValue">$0</strong>
+              </div>
+              <div class="metric-card">
+                <span>Minimum income floor</span>
+                <strong id="minimumIncome">$0</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="./src/site.js"></script>
+  </body>
+</html>
