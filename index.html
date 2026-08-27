@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Broke Era Simulator</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  </head>
+  <body data-page="dashboard" data-ui-stage="profile" data-stress-tier="medium">
+    <div class="minimal-shell">
+      <header class="progress-header">
+        <div class="brand brand-inline">
+          <div>
+            <p class="eyebrow">broke era simulator</p>
+            <h1>Broke Era Simulator</h1>
+          </div>
+        </div>
+
+        <div class="progress-pills" aria-label="simulation stages">
+          <button class="stage-pill" data-open-stage="profile" type="button">1. Profile</button>
+          <button class="stage-pill" data-open-stage="basics" type="button">2. Basics</button>
+          <button class="stage-pill" data-open-stage="reality" type="button">3. Vibe Check</button>
+          <button class="stage-pill" data-open-stage="stress" type="button">4. Stress Room</button>
+          <button class="stage-pill" data-open-stage="report" type="button">5. AI Report</button>
+        </div>
+      </header>
+
+      <main class="spa-stage-shell">
+        <section id="profileStage" class="stage-screen profile-screen is-active" data-stage="profile">
+          <article class="screen-card profile-card-screen">
+            <div class="screen-copy profile-copy">
+              <div class="profile-heading-row">
+                <div>
+                  <p class="eyebrow">Step 1</p>
+                  <h2>Build your little financial avatar.</h2>
+                </div>
+                <div class="profile-avatar-frame" aria-hidden="true">
+                  <img class="profile-avatar-image frame-cat-image" src="./src/assets/frame-cat-1.png" alt="" />
+                </div>
+              </div>
+              <p class="helper-copy">Three quick things, then we start judging the budget.</p>
+            </div>
+
+            <div class="profile-grid">
+              <label class="field hero-field">
+                <span>Name</span>
+                <input id="profileNameInput" type="text" maxlength="32" placeholder="Type your name" />
+              </label>
+
+              <label class="field hero-field">
+                <span>Age</span>
+                <input id="profileAgeInput" type="number" min="16" max="40" step="1" />
+              </label>
+
+              <label class="field hero-field field-full">
+                <span>Education</span>
+                <select id="educationSelect">
+                  <option value="highschool">High school</option>
+                  <option value="community">Community college</option>
+                  <option value="college">College / University</option>
+                  <option value="trade">Trade school</option>
+                  <option value="selftaught">Self-taught</option>
+                  <option value="graduate">Graduate school</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button id="continueProfileButton" class="primary-button vibe-button" type="button">Start My Build ✨</button>
+            </div>
+          </article>
+        </section>
+
+        <section id="basicsStage" class="stage-screen basics-screen" data-stage="basics">
+          <article class="screen-card basics-card">
+            <div class="screen-copy profile-copy basics-copy">
+              <div class="profile-heading-row">
+                <div>
+                  <p class="eyebrow">Step 2</p>
+                  <h2>Okay <span class="user-name-display"></span>, let's talk numbers.</h2>
+                </div>
+                <div class="profile-avatar-frame" aria-hidden="true">
+                  <img class="profile-avatar-image frame-cat-image" src="./src/assets/frame-cat-2.png" alt="" />
+                </div>
+              </div>
+            </div>
+
+            <div class="essentials-grid">
+              <label class="field hero-field">
+                <span>City / Location 🗺️</span>
+                <select id="citySelect"></select>
+              </label>
+
+              <label class="field hero-field">
+                <span>Dream Career / Job Title 💼</span>
+                <select id="careerSelect"></select>
+              </label>
+
+              <label class="field hero-field field-full">
+                <span>Expected Starting Salary 💸</span>
+                <div class="range-wrap">
+                  <input id="salaryInput" type="range" min="35000" max="180000" step="1000" />
+                  <strong id="salaryValue">$0</strong>
+                </div>
+              </label>
+
+              <label class="field hero-field field-full">
+                <span>Current Student Debt 🎒</span>
+                <div class="range-wrap">
+                  <input id="loanInput" type="range" min="0" max="150000" step="1000" />
+                  <strong id="loanValue">$0</strong>
+                </div>
+              </label>
+
+              <label class="field hero-field field-full">
+                <span>Base Yearly Salary Growth Rate (%)</span>
+                <div class="range-wrap">
+                  <input id="salaryGrowthInput" type="range" min="0" max="12" step="0.25" />
+                  <strong id="salaryGrowthValue">3.0%</strong>
+                </div>
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button id="startRealityCheck" class="primary-button vibe-button" type="button">See My Fate →</button>
+              <button id="backToProfileButton" class="ghost-button vibe-ghost" type="button">Back</button>
+            </div>
+          </article>
+        </section>
+
+        <section id="realityStage" class="stage-screen summary-screen" data-stage="reality">
+          <article class="screen-card summary-card reality-card">
+            <p class="eyebrow">Step 3</p>
+            <p id="realityStatus" class="mega-status">Smug Cat Stability</p>
+            <p id="realityNarrative" class="summary-copy"><span class="user-name-display"></span>, your rent is going to eat half your paycheck, but your debt is manageable.</p>
+
+            <div class="summary-chip-row reality-chip-row">
+              <div class="summary-chip">
+                <span class="label-with-info">Housing drag <button class="info-icon info-trigger" data-info-key="reality_housing_drag" type="button" aria-label="How housing drag is calculated">i</button></span>
+                <strong id="realityHousingPreview">0%</strong>
+              </div>
+              <div class="summary-chip">
+                <span class="label-with-info">Debt left <button class="info-icon info-trigger" data-info-key="reality_debt_left" type="button" aria-label="How debt left is calculated">i</button></span>
+                <strong id="realityDebtPreview">$0</strong>
+              </div>
+              <div class="summary-chip">
+                <span class="label-with-info">Broke era risk <button class="info-icon info-trigger" data-info-key="reality_broke_era" type="button" aria-label="How broke era risk is calculated">i</button></span>
+                <strong id="realityBrokePreview">0 months</strong>
+              </div>
+              <div class="summary-chip">
+                <span class="label-with-info">Emergency stash <button class="info-icon info-trigger" data-info-key="reality_emergency_stash" type="button" aria-label="How emergency stash is calculated">i</button></span>
+                <strong id="realitySavingsPreview">$0</strong>
+              </div>
+              <div class="summary-chip">
+                <span class="label-with-info">401k at 65 <button class="info-icon info-trigger" data-info-key="reality_401k_65" type="button" aria-label="How projected 401k at 65 is calculated">i</button></span>
+                <strong id="reality401kPreview">$0</strong>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button id="showStressRoomButton" class="primary-button vibe-button" type="button">Show me my Stress Level 📉</button>
+              <button id="editBasicsButton" class="ghost-button vibe-ghost" type="button">Edit basics</button>
+            </div>
+          </article>
+        </section>
+
+        <section id="stressStage" class="stage-screen stress-screen" data-stage="stress">
+          <article id="pressurePanel" class="screen-card stress-room-card">
+            <div id="emojiParticleField" class="emoji-particle-field" aria-hidden="true"></div>
+
+            <div class="stress-room-head">
+              <div>
+                <p class="eyebrow">Step 4</p>
+                <h2 id="pageTitle">Stress Room</h2>
+                <p class="helper-copy">Hi <span class="user-name-display"></span>. This is where the math gets loud.</p>
+              </div>
+            </div>
+
+            <div class="stress-hero-layout">
+              <div class="stress-copy-block">
+                <p id="stressRoomStatus" class="mega-status">Huh Cat Buffer</p>
+                <p id="stressRoomNarrative" class="summary-copy">The budget is breathing, but barely. One big surprise could still turn this into a flop era.</p>
+                <p id="insightCopy" class="story-copy"></p>
+              </div>
+
+              <div class="stress-score-block">
+                <div id="scoreRing" class="score-ring">
+                  <div class="score-ring-inner">
+                    <div>
+                      <strong id="stressScore">0</strong>
+                      <span class="label-with-info">Financial stress / 100 <button class="info-icon info-trigger" data-info-key="stress_score" type="button" aria-label="How financial stress score is calculated">i</button></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stress-pill-row stress-top-row">
+              <div class="metric-card">
+                <span class="label-with-info">Housing drag <button class="info-icon info-trigger" data-info-key="stress_housing_drag" type="button" aria-label="How housing drag is calculated">i</button></span>
+                <strong id="housingBurden">0%</strong>
+              </div>
+              <div class="metric-card">
+                <span class="label-with-info">Emergency cover <button class="info-icon info-trigger" data-info-key="stress_emergency_cover" type="button" aria-label="How emergency cover is calculated">i</button></span>
+                <strong id="coverageValue">0 mo</strong>
+              </div>
+              <div class="metric-card">
+                <span class="label-with-info">Broke era <button class="info-icon info-trigger" data-info-key="stress_broke_era" type="button" aria-label="How broke era is calculated">i</button></span>
+                <strong id="negativeMonthsValue">0</strong>
+              </div>
+              <div class="metric-card">
+                <span class="label-with-info">Projected 401k at 65 <button class="info-icon info-trigger" data-info-key="stress_401k_65" type="button" aria-label="How projected 401k at 65 is calculated">i</button></span>
+                <strong id="retirementPreview">$0</strong>
+              </div>
+              <div class="metric-card">
+                <span class="label-with-info">Emergency stash <button class="info-icon info-trigger" data-info-key="stress_emergency_stash" type="button" aria-label="How emergency stash is calculated">i</button></span>
+                <strong id="endingEmergency">$0</strong>
+              </div>
+            </div>
+          </article>
+
+          <section class="accordion-stack">
+            <article class="accordion-item open">
+              <button class="accordion-toggle" data-accordion-target="cashFlowPanel" type="button">
+                <div class="accordion-title">
+                  <span id="cashFlowModuleEmoji" class="module-emoji">💸</span>
+                  <span>Cash Flow</span>
+                </div>
+                <span class="accordion-meta">Work mix, quality of life, and the income gap</span>
+              </button>
+              <div id="cashFlowPanel" class="accordion-panel">
+                <div class="accordion-inner">
+                  <div class="module-grid">
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">income setup</p>
+                          <h3>Work mix <button class="info-icon info-trigger" data-info-key="cashflow_work_mix" type="button" aria-label="How work mix is calculated">i</button></h3>
+                        </div>
+                        <button id="addPartTimeJobButton" class="ghost-button vibe-ghost" type="button">Add part-time job</button>
+                      </div>
+
+                      <div class="compact-grid">
+                        <label class="field">
+                          <span>Full-time hours / week</span>
+                          <div class="range-wrap">
+                            <input id="fullTimeHoursInput" type="range" min="20" max="60" step="1" />
+                            <strong id="fullTimeHoursValue">40h</strong>
+                          </div>
+                        </label>
+
+                        <label class="field">
+                          <span>Yearly salary growth rate (%)</span>
+                          <div class="range-wrap">
+                            <input id="cashFlowSalaryGrowthInput" type="range" min="0" max="12" step="0.25" />
+                            <strong id="cashFlowSalaryGrowthValue">3.0%</strong>
+                          </div>
+                        </label>
+
+                        <label class="field">
+                          <span>Desired annual income</span>
+                          <div class="range-wrap">
+                            <input id="targetIncomeInput" type="range" min="40000" max="220000" step="1000" />
+                            <strong id="targetIncomeValue">$0</strong>
+                          </div>
+                        </label>
+
+                        <label class="field">
+                          <span>Desired annual income growth rate (%)</span>
+                          <div class="range-wrap">
+                            <input id="targetIncomeGrowthInput" type="range" min="0" max="12" step="0.25" />
+                            <strong id="targetIncomeGrowthValue">3.0%</strong>
+                          </div>
+                        </label>
+                      </div>
+
+                      <div id="partTimeJobsList" class="analysis-list"></div>
+                    </article>
+
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">expense setup</p>
+                          <h3>Monthly burn <button class="info-icon info-trigger" data-info-key="cashflow_monthly_burn" type="button" aria-label="How monthly burn is calculated">i</button></h3>
+                        </div>
+                      </div>
+
+                      <div class="quality-life-grid">
+                        <div class="quality-life-control">
+                          <label class="field quality-select-field">
+                            <span>Quality of Life</span>
+                            <select id="lifestyleInput">
+                              <option value="0">Frugal</option>
+                              <option value="1">Average</option>
+                              <option value="2">Good</option>
+                              <option value="3">Luxurious</option>
+                            </select>
+                          </label>
+
+                          <div class="quality-definition-card">
+                            <strong id="lifestyleDefinitionTitle">Frugal</strong>
+                            <p id="lifestyleDefinitionCopy">A lean setup focused on lower rent, basic groceries, and minimal transport or lifestyle extras.</p>
+                          </div>
+
+                          <div class="purchase-card">
+                            <div class="panel-head compact-panel-head">
+                              <div>
+                                <p class="eyebrow">big purchases</p>
+                                <h4>Turn on house or car mode</h4>
+                              </div>
+                            </div>
+
+                            <div class="checkbox-row toggle-row">
+                              <input id="buyCarToggle" type="checkbox" />
+                              <label for="buyCarToggle">Buy a Car 🚗</label>
+                            </div>
+
+                            <div id="carPurchaseFields" class="purchase-fields conditional-field is-hidden">
+                              <label class="field field-full">
+                                <span>Car price</span>
+                                <input id="carPriceInput" type="number" min="5000" step="500" />
+                              </label>
+                            </div>
+
+                            <div class="checkbox-row toggle-row">
+                              <input id="buyHouseToggle" type="checkbox" />
+                              <label for="buyHouseToggle">Buy a House 🏡</label>
+                            </div>
+
+                            <div id="housePurchaseFields" class="purchase-fields conditional-field is-hidden">
+                              <label class="field field-full">
+                                <span>Home price</span>
+                                <input id="homePriceInput" type="number" min="50000" step="5000" />
+                              </label>
+
+                              <label class="field field-full">
+                                <span>Downpayment (%)</span>
+                                <input id="homeDownPaymentInput" type="number" min="0" max="80" step="1" />
+                              </label>
+                            </div>
+
+                            <div class="purchase-summary">
+                              <div>
+                                <span>Car payment / month</span>
+                                <strong id="carPaymentValue">$0</strong>
+                              </div>
+                              <div>
+                                <span>Mortgage / month</span>
+                                <strong id="housePaymentValue">$0</strong>
+                              </div>
+                              <div>
+                                <span>Added monthly burn</span>
+                                <strong id="purchaseBurnValue">$0</strong>
+                              </div>
+                            </div>
+
+                            <p class="story-copy">Car math assumes 10% down, 6.9% APR, 72 months. House math assumes a 30-year mortgage at 6.8% APR.</p>
+                          </div>
+                        </div>
+
+                        <div class="expense-slider-stack">
+                          <label class="field">
+                            <span>Rent</span>
+                            <div class="range-wrap">
+                              <input id="rentInput" type="range" min="600" max="5000" step="25" />
+                              <strong id="rentValue">$0</strong>
+                            </div>
+                          </label>
+
+                          <label class="field">
+                            <span>Utilities</span>
+                            <div class="range-wrap">
+                              <input id="utilitiesInput" type="range" min="60" max="600" step="10" />
+                              <strong id="utilitiesValue">$0</strong>
+                            </div>
+                          </label>
+
+                          <label class="field">
+                            <span>Groceries</span>
+                            <div class="range-wrap">
+                              <input id="groceriesInput" type="range" min="150" max="1600" step="25" />
+                              <strong id="groceriesValue">$0</strong>
+                            </div>
+                          </label>
+
+                          <label class="field">
+                            <span>Transport</span>
+                            <div class="range-wrap">
+                              <input id="transportInput" type="range" min="40" max="900" step="10" />
+                              <strong id="transportValue">$0</strong>
+                            </div>
+                          </label>
+
+                          <label class="field">
+                            <span>Healthcare</span>
+                            <div class="range-wrap">
+                              <input id="healthcareInput" type="range" min="100" max="1200" step="10" />
+                              <strong id="healthcareValue">$0</strong>
+                            </div>
+                          </label>
+
+                          <div class="locked-expense-row">
+                            <span>Mandatory 401k contribution</span>
+                            <strong id="monthly401kExpense">$0</strong>
+                            <small>This is your own paycheck deferral. Employer match boosts retirement growth but does not hit monthly burn.</small>
+                          </div>
+                        </div>
+                      </div>
+
+                    </article>
+                  </div>
+
+                  <article class="module-card wide-module-card">
+                    <div class="chart-head">
+                      <div>
+                        <p class="eyebrow">income gap</p>
+                        <h3>Desired Annual Income vs Reality <button class="info-icon info-trigger" data-info-key="cashflow_income_gap" type="button" aria-label="How desired annual income versus reality is calculated">i</button></h3>
+                      </div>
+                    </div>
+
+                    <div class="chart-scroll wide-bars">
+                      <canvas id="flowChart" width="1320" height="320"></canvas>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </article>
+
+            <article class="accordion-item">
+              <button class="accordion-toggle" data-accordion-target="plotTwistsPanel" type="button">
+                <div class="accordion-title">
+                  <span id="twistsModuleEmoji" class="module-emoji">🌪️</span>
+                  <span>Plot Twists</span>
+                </div>
+                <span class="accordion-meta">Add events and watch the chaos ripple out</span>
+              </button>
+              <div id="plotTwistsPanel" class="accordion-panel">
+                <div class="accordion-inner">
+                  <article class="module-card wide-module-card">
+                    <div class="panel-head">
+                      <div>
+                        <p class="eyebrow">defensive setup</p>
+                        <h3>Emergency stash rate <button class="info-icon info-trigger" data-info-key="twists_emergency_rate" type="button" aria-label="How emergency stash rate is calculated">i</button></h3>
+                      </div>
+                    </div>
+
+                    <label class="field field-full emergency-slider-field">
+                      <span>Emergency fund rate</span>
+                      <div class="range-wrap">
+                        <input id="emergencyRateInput" type="range" min="5" max="30" step="1" />
+                        <strong id="emergencyRateValue">0%</strong>
+                      </div>
+                    </label>
+
+                    <p id="emergencyRateNarrative" class="story-copy"></p>
+                  </article>
+
+                  <div class="module-grid">
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">event builder</p>
+                          <h3>Draft a new event <button class="info-icon info-trigger" data-info-key="twists_event_builder" type="button" aria-label="How event impact is calculated">i</button></h3>
+                        </div>
+                      </div>
+
+                      <div class="compact-grid">
+                        <label class="field">
+                          <span>Event type</span>
+                          <select id="eventTypeSelect"></select>
+                        </label>
+
+                        <label class="field">
+                          <span>Start month</span>
+                          <input id="eventMonthInput" type="number" min="1" />
+                        </label>
+
+                        <label class="field">
+                          <span>Duration (months)</span>
+                          <input id="eventDurationInput" type="number" min="1" />
+                        </label>
+
+                        <label class="field">
+                          <span>Income change (%)</span>
+                          <input id="eventIncomeInput" type="number" min="-100" max="100" step="5" />
+                        </label>
+                      </div>
+
+                      <div class="checkbox-row toggle-row">
+                        <input id="eventEmergencyInput" type="checkbox" />
+                        <label for="eventEmergencyInput">Emergency stash can be used</label>
+                      </div>
+
+                      <label id="eventEmergencyRateWrap" class="field field-full conditional-field is-hidden">
+                        <span>Emergency Use Rate (%)</span>
+                        <div class="range-wrap">
+                          <input id="eventEmergencyRateInput" type="range" min="0" max="100" step="5" />
+                          <strong id="eventEmergencyRateValue">0%</strong>
+                        </div>
+                      </label>
+
+                      <p id="eventPresetNote" class="story-copy"></p>
+                      <div id="eventBreakdownFields" class="breakdown-grid"></div>
+                      <button id="addEventButton" class="primary-button vibe-button" type="button">Add event</button>
+                    </article>
+
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">impact view</p>
+                          <h3>Event impact over time <button class="info-icon info-trigger" data-info-key="twists_event_impact" type="button" aria-label="How event impact over time is calculated">i</button></h3>
+                        </div>
+                      </div>
+
+                      <div class="chart-scroll compact-bars">
+                        <canvas id="eventImpactChart" width="980" height="320"></canvas>
+                      </div>
+
+                      <div id="eventList" class="event-list"></div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="accordion-item">
+              <button class="accordion-toggle" data-accordion-target="stashPanel" type="button">
+                <div class="accordion-title">
+                  <span id="stashModuleEmoji" class="module-emoji">🔮</span>
+                  <span>Life Financial Projection</span>
+                </div>
+                <span class="accordion-meta">A clean 401k timeline showing contributions, pauses, and withdrawals year by year</span>
+              </button>
+              <div id="stashPanel" class="accordion-panel">
+                <div class="accordion-inner emergency-stash-layout">
+                  <article class="module-card wide-module-card">
+                    <div class="panel-head">
+                      <div>
+                        <p class="eyebrow">401k tracking</p>
+                        <h3>Contribution rate and monthly deposit <button class="info-icon info-trigger" data-info-key="projection_k401_tracking" type="button" aria-label="How 401k contribution rate and monthly deposit are calculated">i</button></h3>
+                      </div>
+                    </div>
+
+                    <label class="field field-full">
+                      <span>401k Contribution Rate (%)</span>
+                      <div class="range-wrap">
+                        <input id="k401RateInput" type="range" min="0" max="25" step="0.5" />
+                        <strong id="k401RateValue">6%</strong>
+                      </div>
+                    </label>
+
+                    <input id="initial401kRateInput" type="range" min="0" max="25" step="0.5" hidden />
+
+                    <div class="k401-stat-grid">
+                      <div class="summary-chip">
+                        <span class="label-with-info">You put in / month <button class="info-icon info-trigger" data-info-key="projection_k401_employee" type="button" aria-label="How your monthly 401k contribution is calculated">i</button></span>
+                        <strong id="monthly401kEmployee">$0</strong>
+                      </div>
+                      <div class="summary-chip">
+                        <span class="label-with-info">Employer match / month <button class="info-icon info-trigger" data-info-key="projection_k401_match" type="button" aria-label="How employer monthly 401k match is calculated">i</button></span>
+                        <strong id="monthly401kMatch">$0</strong>
+                      </div>
+                      <div class="summary-chip">
+                        <span class="label-with-info">Total monthly deposit <button class="info-icon info-trigger" data-info-key="projection_k401_total" type="button" aria-label="How total monthly 401k deposit is calculated">i</button></span>
+                        <strong id="monthly401kDeposit">$0</strong>
+                      </div>
+                    </div>
+
+                    <p class="story-copy">Employer match assumes 50% of your contribution up to 6% of gross pay, so the free money stacks only if you opt in.</p>
+                  </article>
+
+                  <div class="k401-adjustments-card">
+                    <div class="panel-head">
+                      <div>
+                        <p class="eyebrow">future 401k adjustments</p>
+                        <h3>Schedule rate changes <button class="info-icon info-trigger" data-info-key="projection_k401_schedule" type="button" aria-label="How scheduled 401k rate changes work">i</button></h3>
+                      </div>
+                    </div>
+
+                    <div class="compact-grid">
+                      <label class="field">
+                        <span>Age to apply change</span>
+                        <input id="future401kAgeInput" type="number" min="18" max="65" step="1" />
+                      </label>
+
+                      <label class="field">
+                        <span>New 401k Rate (%)</span>
+                        <input id="future401kRateInput" type="number" min="0" max="25" step="0.5" />
+                      </label>
+                    </div>
+
+                    <button id="add401kChangeButton" class="ghost-button vibe-ghost" type="button">Add Rate Change</button>
+                    <div id="k401AdjustmentList" class="analysis-list"></div>
+                  </div>
+
+                  <p class="timeline-subtitle">Double-click the timeline to view 401k details.</p>
+                  <div id="emergencyTimeline" class="timeline-axis"></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="accordion-item">
+              <button class="accordion-toggle" data-accordion-target="forecastPanel" type="button">
+                <div class="accordion-title">
+                  <span id="forecastModuleEmoji" class="module-emoji">🏥</span>
+                  <span>Forecasts &amp; Health</span>
+                </div>
+                <span class="accordion-meta">Disease costs, income loss, and recovery risk</span>
+              </button>
+              <div id="forecastPanel" class="accordion-panel">
+                <div class="accordion-inner">
+                  <div class="module-grid">
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">forecast</p>
+                          <h3>Disease scenario inputs <button class="info-icon info-trigger" data-info-key="forecast_inputs" type="button" aria-label="How disease scenario inputs are calculated">i</button></h3>
+                        </div>
+                      </div>
+
+                      <div class="compact-grid">
+                        <label class="field">
+                          <span>Disease type</span>
+                          <select id="diseaseSelect"></select>
+                        </label>
+
+                        <label class="field">
+                          <span>Duration (months)</span>
+                          <input id="forecastDurationInput" type="number" min="1" />
+                        </label>
+
+                        <label class="field">
+                          <span>Insurance coverage</span>
+                          <div class="range-wrap">
+                            <input id="insuranceCoverageInput" type="range" min="0" max="95" step="5" />
+                            <strong id="insuranceCoverageValue">0%</strong>
+                          </div>
+                        </label>
+
+                        <label class="field">
+                          <span>Paid leave coverage</span>
+                          <div class="range-wrap">
+                            <input id="paidLeaveInput" type="range" min="0" max="100" step="5" />
+                            <strong id="paidLeaveValue">0%</strong>
+                          </div>
+                        </label>
+                      </div>
+
+                      <div class="checkbox-row toggle-row">
+                        <input id="forecastEmergencyToggle" type="checkbox" />
+                        <label for="forecastEmergencyToggle">Use emergency stash</label>
+                      </div>
+
+                      <label id="forecastEmergencyRateWrap" class="field field-full conditional-field is-hidden">
+                        <span>Emergency Use Rate (%)</span>
+                        <div class="range-wrap">
+                          <input id="forecastEmergencyRateInput" type="range" min="0" max="100" step="5" />
+                          <strong id="forecastEmergencyRateValue">0%</strong>
+                        </div>
+                      </label>
+
+                      <button id="addForecastButton" class="primary-button vibe-button" type="button">Add disease</button>
+                    </article>
+
+                    <article class="module-card">
+                      <div class="panel-head">
+                        <div>
+                          <p class="eyebrow">health impact</p>
+                          <h3>Cost and income loss <button class="info-icon info-trigger" data-info-key="forecast_cost_income" type="button" aria-label="How health impact is calculated">i</button></h3>
+                        </div>
+                      </div>
+
+                      <div class="health-impact-row">
+                        <div class="impact-chip">
+                          <span class="label-with-info">Total medical cost <button class="info-icon info-trigger" data-info-key="health_total_medical_cost" type="button" aria-label="How total medical cost is calculated">i</button></span>
+                          <strong id="forecastTotalCost">$0</strong>
+                        </div>
+                        <div class="impact-chip emoji-impact-chip">
+                          <span class="label-with-info">Financial stress increase <button class="info-icon info-trigger" data-info-key="health_stress_increase" type="button" aria-label="How financial stress increase is calculated">i</button></span>
+                          <strong id="forecastMonthlyCost">$0</strong>
+                        </div>
+                        <div class="impact-chip emoji-impact-chip">
+                          <span class="label-with-info">Income loss <button class="info-icon info-trigger" data-info-key="health_income_loss" type="button" aria-label="How income loss is calculated">i</button></span>
+                          <strong id="forecastIncomeLoss">0%</strong>
+                        </div>
+                      </div>
+
+                      <div id="diseaseBreakdown" class="analysis-list"></div>
+                      <p id="forecastNarrative" class="story-copy"></p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+        </section>
+
+        <section id="reportStage" class="stage-screen report-screen" data-stage="report">
+          <article class="screen-card report-card-screen">
+            <div id="reportPromptShell" class="report-prompt-shell">
+              <section class="report-panel report-chat-panel">
+                <div class="report-chat-head">
+                  <div class="report-panel-head-copy">
+                    <p class="eyebrow">Step 5</p>
+                    <h3>What do you want me to focus on?</h3>
+                  </div>
+                  <div class="profile-avatar-frame report-chat-avatar" aria-hidden="true">
+                    <img class="profile-avatar-image report-chat-avatar-image frame-cat-image" src="./src/assets/frame-cat-3.png" alt="" />
+                  </div>
+                </div>
+
+                <div class="report-focus-grid">
+                  <button class="report-focus-chip active" data-report-focus="all" type="button">Full plan</button>
+                  <button class="report-focus-chip" data-report-focus="career" type="button">Career path</button>
+                  <button class="report-focus-chip" data-report-focus="budget" type="button">Lifestyle budget</button>
+                  <button class="report-focus-chip" data-report-focus="defense" type="button">Financial defense</button>
+                </div>
+
+                <label class="field field-full">
+                  <span>Optional note for the AI</span>
+                  <textarea id="reportFocusInput" class="report-textarea" rows="4" placeholder="Example: focus on whether I can afford to live alone, save enough, and still survive a bad health year."></textarea>
+                </label>
+
+                <div class="action-row">
+                  <button id="generateFocusedReportButton" class="primary-button vibe-button" type="button">Ask AI to Build Report ✨</button>
+                </div>
+              </section>
+            </div>
+
+            <div id="reportGenerationShell" class="report-generation-shell is-hidden">
+              <section class="report-panel">
+                <p class="eyebrow">AI Process</p>
+                <h3>Building your report...</h3>
+                <div class="report-process-list">
+                  <div class="report-process-step">Reading your work mix, salary path, and city costs.</div>
+                  <div class="report-process-step">Checking monthly burn, housing drag, and broke-era risk.</div>
+                  <div class="report-process-step">Combining emergency stash and 401k signals into a life plan.</div>
+                </div>
+              </section>
+            </div>
+
+            <div id="reportOutputShell" class="is-hidden">
+              <div class="report-actions-top">
+                <button id="backToStressButton" class="ghost-button vibe-ghost" type="button">Back to Previous Step</button>
+                <button id="downloadReportButton" class="primary-button vibe-button report-download-button" type="button">Download Report (PDF) 📥</button>
+              </div>
+
+              <div class="report-layout" id="reportCard">
+                <section class="report-panel">
+                  <div class="report-panel-head">
+                    <div class="report-panel-head-copy">
+                      <p class="eyebrow">Career Strategy</p>
+                      <h3 id="reportCareerTitle">Income path and work mix</h3>
+                    </div>
+                    <div class="report-module-avatar" aria-hidden="true">
+                      <img class="report-module-avatar-image frame-cat-image" src="./src/assets/frame-cat-4.png" alt="" />
+                    </div>
+                  </div>
+                  <p id="reportCareerSummary" class="report-copy"></p>
+                  <div id="reportCareerBullets" class="report-points"></div>
+                </section>
+
+                <section class="report-panel">
+                  <div class="report-panel-head">
+                    <div class="report-panel-head-copy">
+                      <p class="eyebrow">Lifestyle &amp; Budget</p>
+                      <h3 id="reportLifestyleTitle">Monthly burn and housing pressure</h3>
+                    </div>
+                    <div class="report-module-avatar" aria-hidden="true">
+                      <img class="report-module-avatar-image frame-cat-image" src="./src/assets/frame-cat-5.png" alt="" />
+                    </div>
+                  </div>
+                  <p id="reportLifestyleSummary" class="report-copy"></p>
+                  <div id="reportLifestyleBullets" class="report-points"></div>
+                </section>
+
+                <section class="report-panel">
+                  <div class="report-panel-head">
+                    <div class="report-panel-head-copy">
+                      <p class="eyebrow">Financial Defense</p>
+                      <h3 id="reportDefenseTitle">Emergency stash and 401k resilience</h3>
+                    </div>
+                    <div class="report-module-avatar" aria-hidden="true">
+                      <img class="report-module-avatar-image report-defense-avatar-image frame-cat-image" src="./src/assets/frame-cat-6.png" alt="" />
+                    </div>
+                  </div>
+                  <p id="reportDefenseSummary" class="report-copy"></p>
+                  <div id="reportDefenseBullets" class="report-points"></div>
+                </section>
+
+              </div>
+
+              <section class="report-panel report-future-section">
+                <div class="report-panel-head">
+                  <div class="report-panel-head-copy">
+                    <p class="eyebrow">Future Suggestion</p>
+                    <h3 id="reportFutureTitle">AI suggestion for what comes next</h3>
+                  </div>
+                  <div class="report-module-avatar" aria-hidden="true">
+                    <img class="report-module-avatar-image frame-cat-image" src="./src/assets/frame-cat-7.png" alt="" />
+                  </div>
+                </div>
+                <p id="reportFutureSummary" class="report-copy"></p>
+                <div id="reportFutureBullets" class="report-points"></div>
+              </section>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="timelinePopup" class="timeline-popup" hidden>
+      <div class="timeline-popup-card">
+        <button id="closeTimelinePopup" class="popup-close" type="button" aria-label="Close popup">×</button>
+        <div id="timelinePopupEmoji" class="timeline-popup-emoji meme-cat-hero meme-cat-bad">
+          <img class="meme-cat-photo" src="https://i.kym-cdn.com/photos/images/newsfeed/001/384/545/7b9.jpg" alt="Screaming Cat meme" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        </div>
+        <h3 id="timelinePopupTitle">Year 5: contribution paused</h3>
+        <p id="timelinePopupCopy">401k details appear here.</p>
+      </div>
+    </div>
+
+    <div id="infoModal" class="info-modal" hidden>
+      <div class="info-modal-card">
+        <button id="closeInfoModal" class="popup-close" type="button" aria-label="Close info popup">×</button>
+        <p class="eyebrow">How this is calculated</p>
+        <h3 id="infoModalTitle">Metric explanation</h3>
+        <div id="infoModalBody" class="info-modal-body"></div>
+      </div>
+    </div>
+
+    <button id="assistantFab" class="assistant-fab" type="button" aria-label="Open AI assistant">
+      <span class="assistant-fab-avatar" aria-hidden="true">
+        <img class="assistant-avatar-image" src="./src/assets/support-cat-v2.png" alt="AI assistant cat avatar" />
+      </span>
+    </button>
+
+    <div id="catSpeechBubble" class="cat-speech-bubble" aria-live="polite" aria-hidden="true">
+      <strong id="catSpeechTitle">Biggest expense: Rent</strong>
+      <p id="catSpeechCopy">Tiny change, big vibe shift. I’ll tell you what this does to your long-term plan.</p>
+    </div>
+
+    <section id="assistantPanel" class="assistant-panel" hidden aria-label="AI customer service">
+      <div class="assistant-panel-head">
+        <div>
+          <p class="eyebrow">Broke Era AI</p>
+          <h3>Customer Service Bot</h3>
+        </div>
+        <button id="closeAssistantPanel" class="popup-close assistant-close" type="button" aria-label="Close assistant">×</button>
+      </div>
+
+      <div id="assistantMessages" class="assistant-messages"></div>
+
+      <form id="assistantForm" class="assistant-form">
+        <input id="assistantInput" type="text" maxlength="140" placeholder="Ask about a house, emergencies, or your 401k" />
+        <button class="primary-button vibe-button" type="submit">Send</button>
+      </form>
+    </section>
+
+    <script src="./src/site.js"></script>
+  </body>
+</html>
